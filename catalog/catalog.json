@@ -40,12 +40,6 @@
       "title": "Catalog agent guide"
     },
     {
-      "rel": "alternate",
-      "href": "./llms.txt",
-      "type": "text/plain",
-      "title": "llms.txt summary for language models"
-    },
-    {
       "rel": "via",
       "href": "https://source.coop/mindearth/italy-aerial",
       "type": "text/html",
