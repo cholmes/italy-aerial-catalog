@@ -1,0 +1,58 @@
+# What publishes, and where.
+#
+# Everything under publish_dir is synced 1:1 to write_prefix. Data files are
+# never placed under publish_dir, so they cannot be published by accident.
+#
+# NOTHING HERE IS ENABLED. This catalog is a third-party mirror. Nobody
+# holding this repository today has write credentials for the Source
+# Cooperative account below, and tools/publish.py uploads only when it is
+# given --confirm and finds AWS credentials. Both are absent. The values are
+# filled in so the dataset's authors can publish without reverse-engineering
+# the layout.
+#
+# The prefix is deliberately a `stac/` subdirectory rather than the repository
+# root. Publishing syncs publish_dir 1:1, so a root prefix would overwrite the
+# existing README.md that MindEarth serves at
+# https://data.source.coop/mindearth/italy-aerial/README.md. Writing under
+# stac/ is purely additive: it adds files and replaces none. The authors may
+# prefer catalog.json at the repository root for discoverability; that is a
+# two-line change here, and it is theirs to make with their eyes open.
+
+# The S3 URI uploads are written to. Copy it from your storage provider.
+write_prefix: s3://mindearth/italy-aerial/stac
+
+# The public base URL that serves write_prefix. Every href in the catalog is
+# built from this, so it goes in the STAC JSON and write_prefix does not.
+public_base: https://data.source.coop/mindearth/italy-aerial/stac
+
+# Source Cooperative serves this repository from eu-central-1. Quoted from the
+# dataset README's "Where is the data" table.
+region: eu-central-1
+
+# Source Cooperative is S3-compatible but it is not AWS, so the endpoint has
+# to be named or boto3 resolves the bucket against real AWS S3 and reports
+# NoSuchBucket. The bucket is the account name, `mindearth`, and the prefix is
+# the repository path under it.
+#
+# This host and region are the ones the dataset README documents for reading,
+# and reading over them is verified. The write path is NOT verified, because
+# nobody here has credentials for this account. Whoever publishes should
+# confirm the endpoint and bucket against their Source Cooperative dashboard
+# before the first upload. An older Source Cooperative form,
+# s3://us-west-2.opendata.source.coop/{org}/{repo}/, appears in some docs; as
+# of 2026-10-31 that hostname does not resolve.
+endpoint_url: https://data.source.coop
+
+# The named AWS profile the publisher uses. Optional. Leave it commented out
+# to use the default boto3 session. Source Cooperative issues per-account
+# credentials, so set the profile name you stored them under.
+# profile: my-source-coop-profile
+
+# The directory that IS the published catalog, synced 1:1 to write_prefix.
+# Nothing outside it is ever uploaded.
+publish_dir: catalog
+
+# The staging directory that holds data files, read by tools/upload_data.py.
+# Unused here. This catalog uploads no data: the Zarr store it describes is
+# already published by MindEarth and is referenced by absolute URL.
+# data_dir: ../catalog-staging

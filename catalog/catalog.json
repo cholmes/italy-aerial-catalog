@@ -1,0 +1,65 @@
+{
+  "type": "Catalog",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json"
+  ],
+  "id": "italy-aerial",
+  "title": "Italy Aerial Orthophoto",
+  "updated": "2026-10-31T00:00:00Z",
+  "description": "A STAC description of the Italian national aerial orthophoto mosaic that MindEarth publishes on Source Cooperative as a cloud-native Zarr v3 array. The imagery is AGEA's national orthophoto programme, flights 2022 to 2024, merged into one seamless country-wide grid in EPSG:3857 at roughly 0.6 m per pixel with twelve pyramid levels. This catalog is a third-party mirror: it holds metadata only and points at MindEarth's published bytes, which it does not copy or re-host. Start with the [catalog agent guide](AGENTS.md) for how to read the array, and see the [collection](agea-orthophoto/collection.json) for the full provenance, licence and access notes.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json",
+      "title": "Italy Aerial Orthophoto catalog root"
+    },
+    {
+      "rel": "self",
+      "href": "https://data.source.coop/mindearth/italy-aerial/stac/catalog.json",
+      "type": "application/json",
+      "title": "This catalog, at its published location"
+    },
+    {
+      "rel": "child",
+      "href": "./agea-orthophoto/collection.json",
+      "type": "application/json",
+      "title": "AGEA Orthophoto Mosaic of Italy (2022-2024)"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Catalog README"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Catalog agent guide"
+    },
+    {
+      "rel": "alternate",
+      "href": "./llms.txt",
+      "type": "text/plain",
+      "title": "llms.txt summary for language models"
+    },
+    {
+      "rel": "via",
+      "href": "https://source.coop/mindearth/italy-aerial",
+      "type": "text/html",
+      "title": "Source Cooperative repository mindearth/italy-aerial"
+    },
+    {
+      "rel": "vcs",
+      "href": "https://github.com/cholmes/italy-aerial-catalog",
+      "title": "Source repository"
+    },
+    {
+      "rel": "issues",
+      "href": "https://github.com/cholmes/italy-aerial-catalog/issues",
+      "title": "Issue tracker"
+    }
+  ]
+}

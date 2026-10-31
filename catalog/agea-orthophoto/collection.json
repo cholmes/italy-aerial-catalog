@@ -1,0 +1,271 @@
+{
+  "type": "Collection",
+  "stac_version": "1.1.0",
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/datacube/v2.2.0/schema.json",
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+  ],
+  "id": "agea-orthophoto",
+  "title": "AGEA Orthophoto Mosaic of Italy (2022-2024)",
+  "updated": "2026-10-31T00:00:00Z",
+  "description": "A seamless country-wide aerial orthophoto mosaic of Italy, published by [MindEarth](https://mindearth.ai) as a single cloud-native [Zarr v3](https://zarr.dev/) array so that any area can be read directly from object storage without downloading the whole dataset.\n\nThe imagery comes from the national orthophoto programme of [AGEA](https://agea.gov.it/), the Italian agricultural payments agency, covering the 2022, 2023 and 2024 flights. Where flights overlap, MindEarth applied a priority mosaic: 2024 wins wherever it has data, 2023 fills pixels still empty, and 2022 fills what remains. Neighbouring areas therefore often come from different years, and the mosaic is not radiometrically balanced, so seams and colour steps between years are expected rather than defects.\n\nThe array is `(band, y, x)` `uint8` RGBA on an EPSG:3857 grid at 0.597164 m per pixel, with twelve pyramid levels from full resolution down to roughly 1.2 km per pixel. The alpha band is the coverage mask: it is 0 wherever there is no AGEA imagery, which includes the sea, neighbouring countries and the padding at the edge of the stored grid. Measured on pyramid level 11, 25.4 percent of the grid carries imagery.\n\nTwo caveats matter before anyone treats this as a measurement. The values are rendered 8-bit display tiles from AGEA's WMTS service, not calibrated reflectance, so they do not support quantitative radiometry. And although AGEA produces the orthophotos at 20 cm, this mosaic is built from the Web Mercator tile service, whose finest zoom level corresponds to roughly 40 to 48 cm on the ground in Italy; Basilicata is coarser still. For full 20 cm detail, go to the [Geoportale AGEA](https://geoportale.agea.gov.it/).\n\nThis collection is a third-party mirror. It describes bytes that MindEarth hosts on Source Cooperative and copies none of them. Read the [collection agent guide](AGENTS.md) before querying: it carries the coordinate conventions, the padding trap, the pyramid-level table and worked Python that has been run against the published store.",
+  "keywords": [
+    "aerial",
+    "orthophoto",
+    "imagery",
+    "RGB",
+    "Italy",
+    "AGEA",
+    "Zarr",
+    "cloud-native",
+    "high-value datasets"
+  ],
+  "license": "CC-BY-4.0",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          6.576691,
+          35.470736,
+          18.540802,
+          47.103784
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2022-01-01T00:00:00Z",
+          "2024-12-31T23:59:59Z"
+        ]
+      ]
+    }
+  },
+  "providers": [
+    {
+      "name": "AGEA - Agenzia per le Erogazioni in Agricoltura",
+      "description": "Produced and owns the source orthophotos, flown 2022 to 2024 at 20 cm ground resolution, and publishes them under CC BY 4.0. AGEA did not take part in producing this derived dataset and does not endorse it.",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://geoportale.agea.gov.it/"
+    },
+    {
+      "name": "MindEarth",
+      "description": "Retrieved the AGEA WMTS tiles between 2026-09-01 and 2026-10-15, merged them into one priority mosaic and converted the result to a sharded Zarr v3 array.",
+      "roles": [
+        "processor"
+      ],
+      "url": "https://mindearth.ai"
+    },
+    {
+      "name": "Source Cooperative",
+      "description": "Hosts and serves the published Zarr store over anonymous HTTPS and S3 from eu-central-1.",
+      "roles": [
+        "host"
+      ],
+      "url": "https://source.coop/mindearth/italy-aerial"
+    }
+  ],
+  "cube:dimensions": {
+    "band": {
+      "type": "bands",
+      "description": "Rendered RGBA channels. Alpha is the coverage mask, not a colour.",
+      "values": [
+        "red",
+        "green",
+        "blue",
+        "alpha"
+      ]
+    },
+    "y": {
+      "type": "spatial",
+      "axis": "y",
+      "description": "Northing in EPSG:3857 metres, stored north to south, so a slice runs from the larger value to the smaller one.",
+      "extent": [
+        4227273.410113395,
+        5959030.723179791
+      ],
+      "step": -0.597164283559817,
+      "reference_system": 3857,
+      "unit": "metre"
+    },
+    "x": {
+      "type": "spatial",
+      "axis": "x",
+      "description": "Easting in EPSG:3857 metres, stored west to east.",
+      "extent": [
+        732113.8597653955,
+        2072513.5879580292
+      ],
+      "step": 0.597164283559817,
+      "reference_system": 3857,
+      "unit": "metre"
+    }
+  },
+  "cube:variables": {
+    "rgba": {
+      "type": "data",
+      "description": "Priority-merged RGBA orthophoto imagery, uint8, with 0 in the alpha band marking absence of AGEA coverage.",
+      "dimensions": [
+        "band",
+        "y",
+        "x"
+      ]
+    }
+  },
+  "proj:code": "EPSG:3857",
+  "proj:shape": [
+    2899968,
+    2244608
+  ],
+  "proj:transform": [
+    0.597164283559817,
+    0.0,
+    732113.8597653955,
+    0.0,
+    -0.597164283559817,
+    5959030.723179791
+  ],
+  "summaries": {
+    "gsd": [
+      0.597164283559817
+    ],
+    "platform": [
+      "aircraft"
+    ]
+  },
+  "assets": {
+    "data": {
+      "href": "https://data.source.coop/mindearth/italy-aerial/italy-aerial.zarr",
+      "type": "application/vnd.zarr; version=3; profile=multiscales",
+      "title": "Italy aerial orthophoto mosaic, Zarr v3 multiscale store",
+      "description": "The whole mosaic as one sharded Zarr v3 store with consolidated metadata. Groups 0 to 11 are the pyramid levels, 0 being full resolution; each holds an `rgba` array of shape (band, y, x). Inner chunks are 4x1024x1024, shards are 4x16384x16384, compressed with zstd. Source Cooperative serves no directory listing over plain HTTP, so open it through an S3-style store rather than an HTTP store.",
+      "roles": [
+        "data"
+      ],
+      "bands": [
+        {
+          "name": "red",
+          "description": "Red channel of the rendered AGEA tile imagery.",
+          "data_type": "uint8",
+          "nodata": 0
+        },
+        {
+          "name": "green",
+          "description": "Green channel of the rendered AGEA tile imagery.",
+          "data_type": "uint8",
+          "nodata": 0
+        },
+        {
+          "name": "blue",
+          "description": "Blue channel of the rendered AGEA tile imagery.",
+          "data_type": "uint8",
+          "nodata": 0
+        },
+        {
+          "name": "alpha",
+          "description": "Coverage mask. 0 marks a pixel with no AGEA imagery, including sea, neighbouring countries and grid padding.",
+          "data_type": "uint8"
+        }
+      ]
+    },
+    "zarr-metadata": {
+      "href": "https://data.source.coop/mindearth/italy-aerial/italy-aerial.zarr/zarr.json",
+      "type": "application/json",
+      "title": "Consolidated Zarr root metadata",
+      "description": "The store's own root metadata. It carries the multiscales layout for all twelve levels, the EPSG:3857 WKT2, the tile matrix set and per-level tile limits, and the list of AGEA WMTS endpoints the imagery was fetched from. Fetching this one document is the cheapest way to confirm the grid before reading any imagery.",
+      "roles": [
+        "metadata"
+      ],
+      "file:size": 97679,
+      "file:checksum": "1220840a306b2e2223b21cd2d8d5b3c929eb43cab49c51f7632b213f9ec38a8e85f8"
+    },
+    "source-readme": {
+      "href": "https://data.source.coop/mindearth/italy-aerial/README.md",
+      "type": "text/markdown",
+      "title": "MindEarth dataset README, as published",
+      "description": "The publisher's own documentation for the Zarr store, carried here unmodified as the provenance record this collection was written from.",
+      "roles": [
+        "metadata"
+      ],
+      "file:size": 9799,
+      "file:checksum": "1220a899b2530b956a8eccef17dafc098f448ab5b1a961ec7d85014ba13f5dde9842"
+    },
+    "thumbnail": {
+      "href": "./thumbnail.png",
+      "type": "image/png",
+      "title": "Italy, rendered from pyramid level 11",
+      "description": "Rendered from the published store's own level-11 overview at roughly 1.2 km per pixel, cropped to the valid data extent and framed 3:2. Transparent pixels are alpha 0, meaning no AGEA coverage. The visible colour steps between regions are the 2022 to 2024 flight seams.",
+      "roles": [
+        "thumbnail"
+      ],
+      "file:size": 370302,
+      "file:checksum": "1220def9eabf6f03f662d0a6057dc2694cf535854374ebd5e06430a875ab68329fc2"
+    }
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "Italy Aerial Orthophoto catalog root"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "Italy Aerial Orthophoto catalog root"
+    },
+    {
+      "rel": "self",
+      "href": "https://data.source.coop/mindearth/italy-aerial/stac/agea-orthophoto/collection.json",
+      "type": "application/json",
+      "title": "This collection, at its published location"
+    },
+    {
+      "rel": "item",
+      "href": "./italy-mosaic-2022-2024.json",
+      "type": "application/geo+json",
+      "title": "Italy orthophoto mosaic, 2022-2024 flights"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Collection README"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Collection agent guide"
+    },
+    {
+      "rel": "via",
+      "href": "https://source.coop/mindearth/italy-aerial",
+      "type": "text/html",
+      "title": "Source Cooperative repository mindearth/italy-aerial"
+    },
+    {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/",
+      "type": "text/html",
+      "title": "Creative Commons Attribution 4.0 International"
+    },
+    {
+      "rel": "related",
+      "href": "https://mindearth.github.io/zarr-viewer/?p=rgb-multiscale&url=https%3A%2F%2Fdata.source.coop%2Fmindearth%2Fitaly-aerial%2Fitaly-aerial.zarr",
+      "type": "text/html",
+      "title": "MindEarth Zarr viewer, RGB multiscale preview"
+    },
+    {
+      "rel": "related",
+      "href": "https://geoportale.agea.gov.it/",
+      "type": "text/html",
+      "title": "Geoportale AGEA, the original 20 cm orthophotos"
+    }
+  ]
+}
