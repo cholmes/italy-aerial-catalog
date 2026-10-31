@@ -52,6 +52,34 @@ The one info is `PTL-PRO-002` suggesting a `canonical` link. MindEarth
 publishes no STAC of its own, so there is nothing to point a `canonical` link
 at. The collection carries `via` instead.
 
+## No object carries a self link
+
+The catalog template's `SETUP.md` step 1 says to add an absolute `self` link
+built from `public_base`. This catalog does not, and the links were removed
+after being added once.
+
+`PORTO-CORE-081` is conditioned: a catalog served over the internet **from a
+single fixed URL** SHOULD carry one. This catalog has no single fixed URL. It
+is browsable from the GitHub repository that generates it, and it is not
+published to a bucket at all yet. The same section of the template agrees
+with removing them; `catalog/AGENTS.md` ships the line "Catalogs here carry
+no `self` link, so a client tracks its own location", and the stac-check note
+below says Portolan forbids a `self` link "because a static catalog may be
+mirrored or moved". `SETUP.md` is the odd one out, and that contradiction is
+worth reporting upstream to the template.
+
+The practical failure it caused: `stac-js` resolves relative hrefs against
+the `self` link when one is present. With `self` pointing at
+`data.source.coop/mindearth/italy-aerial/stac/`, a reader loading
+`collection.json` from `raw.githubusercontent.com` chased the child, item and
+thumbnail hrefs to a bucket prefix that holds nothing. Removing the links
+makes every href resolve against wherever the reader actually found the file,
+which is what lets the GitHub repository serve as a working STAC catalog.
+
+`rashid` reads a root `self` link only to establish a published base for
+judging absolute structural hrefs. Every structural href here is relative, so
+nothing is lost.
+
 ## Zarr is not a recognized Portolan format
 
 Passing is not the same as being supported. Portolan has no Zarr profile. No

@@ -220,12 +220,6 @@
       "title": "Italy Aerial Orthophoto catalog root"
     },
     {
-      "rel": "self",
-      "href": "https://data.source.coop/mindearth/italy-aerial/stac/agea-orthophoto/collection.json",
-      "type": "application/json",
-      "title": "This collection, at its published location"
-    },
-    {
       "rel": "item",
       "href": "./italy-mosaic-2022-2024.json",
       "type": "application/geo+json",

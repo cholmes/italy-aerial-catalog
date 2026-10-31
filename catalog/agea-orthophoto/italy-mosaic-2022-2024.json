@@ -196,12 +196,6 @@
       "title": "AGEA Orthophoto Mosaic of Italy (2022-2024)"
     },
     {
-      "rel": "self",
-      "href": "https://data.source.coop/mindearth/italy-aerial/stac/agea-orthophoto/italy-mosaic-2022-2024.json",
-      "type": "application/geo+json",
-      "title": "This item, at its published location"
-    },
-    {
       "rel": "via",
       "href": "https://source.coop/mindearth/italy-aerial",
       "type": "text/html",

@@ -16,12 +16,6 @@
       "title": "Italy Aerial Orthophoto catalog root"
     },
     {
-      "rel": "self",
-      "href": "https://data.source.coop/mindearth/italy-aerial/stac/catalog.json",
-      "type": "application/json",
-      "title": "This catalog, at its published location"
-    },
-    {
       "rel": "child",
       "href": "./agea-orthophoto/collection.json",
       "type": "application/json",

@@ -85,9 +85,14 @@ Do not compute an index from them.
 
 ## Structure
 
-Assets and structural links resolve relative to the object that carries them.
-The catalog and its collection carry `self` links, so a client holding a
-downloaded copy can see where it came from.
+Assets and structural links resolve relative to the object that carries them,
+and nothing here carries a `self` link, so a client tracks its own location.
+
+That is deliberate. This catalog is browsable from more than one base: the
+GitHub repository that generates it, and whatever bucket prefix it is
+eventually published to. A `self` link names one fixed location, and clients
+resolve every relative href against it, so a catalog read from anywhere else
+would chase its children and thumbnails to a host that does not serve them.
 
 Data assets use absolute URLs into MindEarth's Source Cooperative repository,
 because this catalog mirrors that data rather than re-hosting it. The
