@@ -59,6 +59,20 @@ rather than a single object, so a HEAD or a ranged GET against it returns
 weakening the catalog: the Zarr store is right and the rule set has not
 caught up with multi-file assets.
 
+## This catalog ships no llms.txt, on purpose
+
+Do not add `catalog/llms.txt`. It was added once and removed in 876279c.
+
+The `portolan-bootstrap` skill asks you to either author one or decide
+explicitly not to and record why. This is that record, so the decision is
+made and you do not need to make it again.
+
+The reason: this catalog is one collection with one item. A `llms.txt` would
+be a third copy of facts that `catalog/README.md` and the two `AGENTS.md`
+guides already carry, and the copies drift. The agent guides are the thing to
+improve instead. Revisit only if this catalog grows enough collections that a
+single index earns its keep.
+
 ## Every claim carries its source
 
 Each statement in `catalog/**/AGENTS.md` and `catalog/**/README.md` is quoted
