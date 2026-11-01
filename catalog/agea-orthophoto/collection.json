@@ -4,7 +4,8 @@
   "stac_extensions": [
     "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
     "https://stac-extensions.github.io/datacube/v2.2.0/schema.json",
-    "https://stac-extensions.github.io/projection/v2.0.0/schema.json"
+    "https://stac-extensions.github.io/projection/v2.0.0/schema.json",
+    "https://stac-extensions.github.io/render/v2.0.0/schema.json"
   ],
   "id": "agea-orthophoto",
   "title": "AGEA Orthophoto Mosaic of Italy (2022-2024)",
@@ -136,6 +137,28 @@
     "platform": [
       "aircraft"
     ]
+  },
+  "renders": {
+    "rgb": {
+      "title": "True colour RGB",
+      "assets": [
+        "data"
+      ],
+      "rescale": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ]
+      ]
+    }
   },
   "assets": {
     "data": {

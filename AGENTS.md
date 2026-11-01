@@ -84,6 +84,29 @@ downstream catches.
 Every Python recipe in a published `AGENTS.md` has been run against the live
 store. If you change one, run it again before you commit.
 
+## The `renders` block is load-bearing
+
+Both the collection and the item carry a `renders` entry with
+`rescale: [[0, 255], [0, 255], [0, 255]]`. It looks redundant, because uint8
+data is already in that range, and it is not. Without it STAC Browser renders
+the mosaic as a solid white silhouette of Italy.
+
+The cause is in `ol-stac`, which STAC Browser uses to draw Zarr. Its
+`getGeoZarrStyleFromAsset` only takes a value range from STAC `statistics`,
+and these bands declare `data_type` instead. With no range it returns no
+style at all, and OpenLayers then passes the raw 0-255 values to a shader
+where 1.0 is full brightness, so every pixel carrying imagery clamps to
+white. The alpha band still masks the sea, which is why the silhouette is
+shaped correctly.
+
+`rescale` is a rendering instruction rather than a measurement, so it states
+nothing about the pixels that the array does not already declare. Asset-level
+`statistics` would work too, but it would assert an observed minimum and
+maximum that nobody here has measured.
+
+Tracked in radiantearth/stac-browser#1047. Remove this block only once that
+is fixed and the catalog still renders.
+
 ## The links back to this repository
 
 `catalog/catalog.json` carries a `vcs` link and an `issues` link, both
